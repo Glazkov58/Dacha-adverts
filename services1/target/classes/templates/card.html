@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Продажа дачного участка 10 соток | Дачник.ру</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Иконки Bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <style>
+        .carousel-control-prev-icon, .carousel-control-next-icon {
+            background-color: rgba(0,0,0,0.5);
+            border-radius: 50%;
+            padding: 20px;
+        }
+        .feature-icon {
+            font-size: 1.5rem;
+            color: #198754;
+        }
+        .price-badge {
+            font-size: 1.2rem;
+        }
+        .contact-card {
+            position: sticky;
+            top: 20px;
+        }
+        .spec-item {
+            margin-bottom: 0.8rem;
+        }
+        .spec-icon {
+            color: #198754;
+            margin-right: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Навигационная панель -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top shadow-sm">
+        <div class="container">
+            <a class="navbar-brand text-success" href="#">
+                <i class="bi bi-tree-fill"></i> Дачник.ру
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/"><i class="bi bi-house-door"></i> Главная</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/addadvert"><i class="bi bi-plus-circle"></i> Добавить объявление</a>
+                    </li>
+                </ul>
+                <div class="d-flex">
+                    <a href="/auth" class="btn btn-outline-success me-2"><i class="bi bi-person"></i> Войти</a>
+                    <a href="#" class="btn btn-success"><i class="bi bi-bookmark-heart"></i> Избранное</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Хлебные крошки -->
+    <div class="container mt-3">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">Главная</a></li>
+                <li class="breadcrumb-item"><a href="#">Продажа участков</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Продается участок 10 соток</li>
+            </ol>
+        </nav>
+    </div>
+
+    <!-- Основное содержимое -->
+    <div class="container my-4">
+        <div class="row">
+            <!-- Основная информация -->
+            <div class="col-lg-8">
+                <!-- Заголовок и цена -->
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h1 class="mb-0" th:text="${dacha.getAdTitle()}"></h1>
+                    <span class="badge bg-success price-badge" th:text="${#numbers.formatInteger(dacha.getAdPrice(), 0, 'WHITESPACE')} + '₽'"></span>
+                </div>
+                
+                <!-- Местоположение -->
+                <div class="d-flex align-items-center mb-4 text-muted">
+                    <i class="bi bi-geo-alt-fill me-2"></i>
+                    <span th:text="|${dacha.getAdCity}, ${dacha.getAdAddress}, ${dacha.getAdDistrict}|">15 км от города</span>
+                </div>
+                
+                <!-- Галерея изображений -->
+                <div class="card mb-4">
+                    <div class="card-body p-0">
+                        <div id="propertyCarousel" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-indicators">
+                                <button type="button" data-bs-target="#propertyCarousel" data-bs-slide-to="0" class="active"></button>
+                                <button type="button" data-bs-target="#propertyCarousel" data-bs-slide-to="1"></button>
+                                <button type="button" data-bs-target="#propertyCarousel" data-bs-slide-to="2"></button>
+                                <button type="button" data-bs-target="#propertyCarousel" data-bs-slide-to="3"></button>
+                            </div>
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <img src="https://via.placeholder.com/800x500?text=Участок+вид+1" class="d-block w-100" alt="Вид участка 1">
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="https://via.placeholder.com/800x500?text=Участок+вид+2" class="d-block w-100" alt="Вид участка 2">
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="https://via.placeholder.com/800x500?text=Участок+вид+3" class="d-block w-100" alt="Вид участка 3">
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="https://via.placeholder.com/800x500?text=Окрестности" class="d-block w-100" alt="Окрестности">
+                                </div>
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#propertyCarousel" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#propertyCarousel" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Основные характеристики -->
+                <div class="card mb-4">
+                    <div class="card-header bg-light">
+                        <h5 class="mb-0"><i class="bi bi-card-checklist"></i> Основные характеристики</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="spec-item">
+                                    <i class="bi bi-rulers spec-icon"></i>
+                                    <strong>Площадь:</strong><span th:text="|${dacha.getAdArea()} соток|"></span>
+                                </div>
+                                <div class="spec-item">
+                                    <i class="bi bi-lightning-charge spec-icon"></i>
+                                    <strong>Электричество:</strong> <span th:if="${dacha.isAdElectricity()}" th:text="'Электричество на участке'"></span>
+                                                                    <span th:else th:text="'Нет Электричества'"></span>
+                                </div>
+                                <div class="spec-item">
+                                    <i class="bi bi-droplet spec-icon"></i>
+                                    <strong>Вода:</strong> <span th:if="${dacha.isAdWater()}" th:text="'Вода на участке'"></span>
+                                                           <span th:else th:text="'Нет воды'"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="spec-item">
+                                    <i class="bi bi-tree spec-icon"></i>
+                                    <strong>Насаждения:</strong><span th:if="${dacha.isAdFruitTrees()}" th:text="'Плодовые деревья'"></span>
+                                                                <span th:else th:text="'Нет насаждений'"></span> 
+                                </div>
+                                <div class="spec-item">
+                                    <i class="bi bi-building spec-icon"></i>
+                                    <strong>Постройки:</strong><span th:if="${dacha.isAdBathhouse()}" th:text="'Баня'"></span>
+                                                                <span th:else th:text="''"></span>
+                                                                <span th:if="${dacha.isAdGarage()}" th:text="'Гараж'"></span>
+                                                                <span th:else th:text="''"></span>
+                                </div>
+                                <div class="spec-item">
+                                    <i class="bi bi-fence spec-icon"></i>
+                                    <strong>Ограждение:</strong> <span th:if="${dacha.isAdFence()}" th:text="'Участок с ограждением'"></span>
+                                                                <span th:else th:text="'Ограждение отсутствует'"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Подробное описание -->
+                <div class="card mb-4">
+                    <div class="card-header bg-light">
+                        <h5 class="mb-0"><i class="bi bi-text-paragraph"></i> Подробное описание</h5>
+                    </div>
+                    <div class="card-body">
+                        <p th:text="${dacha.getAdDescription}"></p>
+                        <p><strong>Преимущества:</strong></p>
+                        <ul>
+                            <li>Отличная транспортная доступность - 15 минут до города по асфальтированной дороге</li>
+                            <li>Развитая инфраструктура товарищества: охрана, детская площадка, общий пруд</li>
+                            <li>Плодородная почва - участок много лет использовался под огород</li>
+                            <li>На участке имеются взрослые плодовые деревья (яблони, груши, сливы)</li>
+                            <li>Есть баня 4×4 м из бруса (2018 год постройки) и сарай для инструментов</li>
+                        </ul>
+                        <p>Участок полностью готов к строительству дома или для использования под сад/огород. Все коммуникации по границе участка.</p>
+                        <p>Торг уместен для серьезных покупателей. Возможна рассрочка платежа.</p>
+                    </div>
+                </div>
+                
+                <!-- Карта -->
+                <div class="card mb-4">
+                    <div class="card-header bg-light">
+                        <h5 class="mb-0"><i class="bi bi-map"></i> Расположение</h5>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="ratio">
+                            <div style="position:relative;overflow:hidden;"><a href="https://yandex.ru/maps/51/samara/?utm_medium=mapframe&utm_source=maps" style="color:#eee;font-size:12px;position:absolute;top:0px;">Самара</a><a href="https://yandex.ru/maps/51/samara/?ll=51.123515%2C54.198640&utm_medium=mapframe&utm_source=maps&z=16.21" style="color:#eee;font-size:12px;position:absolute;top:14px;">Яндекс Карты — транспорт, навигация, поиск мест</a><iframe src="https://yandex.ru/map-widget/v1/?ll=51.123515%2C54.198640&z=16.21" width="100%" height="400" frameborder="1" allowfullscreen="true" style="position:relative;"></iframe></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Контакты (для мобильных) -->
+                <div class="card mb-4 d-lg-none">
+                    <div class="card-header bg-light">
+                        <h5 class="mb-0"><i class="bi bi-telephone"></i> Контакты</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-3">
+                            <img src="https://via.placeholder.com/50?text=AV" class="rounded-circle me-3" alt="Аватар">
+                            <div>
+                                <h6 class="mb-0" th:text="${dacha.getContactName}"></h6>
+                                <small class="text-muted">Владелец</small>
+                            </div>
+                        </div>
+                        <a href="tel:+79161234567" class="btn btn-success w-100 mb-2">
+                            <i class="bi bi-telephone" th:text="${dacha.getContactPhone}"></i> 
+                        </a>
+                        <button class="btn btn-outline-primary w-100 mb-2">
+                            <i class="bi bi-chat-left-text"></i> Написать сообщение
+                        </button>
+                        <button class="btn btn-outline-secondary w-100">
+                            <i class="bi bi-share"></i> Поделиться
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Боковая панель (контакты и похожие) -->
+            <div class="col-lg-4">
+                <!-- Контакты (для десктоп) -->
+                <div class="card contact-card mb-4 d-none d-lg-block">
+                    <div class="card-header bg-light">
+                        <h5 class="mb-0"><i class="bi bi-telephone"></i> Контакты</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-3">
+                            <img src="https://via.placeholder.com/50?text=AV" class="rounded-circle me-3" alt="Аватар">
+                            <div>
+                                <h6 class="mb-0" th:text="${dacha.getContactName}"></h6>
+                                <small class="text-muted">Владелец</small>
+                            </div>
+                        </div>
+                        <a href="tel:+79161234567" class="btn btn-success w-100 mb-2">
+                            <i class="bi bi-telephone"></i> Позвонить
+                        </a>
+                        <button class="btn btn-outline-primary w-100 mb-2">
+                            <i class="bi bi-chat-left-text"></i> Написать сообщение
+                        </button>
+                        <button class="btn btn-outline-secondary w-100 mb-3">
+                            <i class="bi bi-share"></i> Поделиться
+                        </button>
+                        
+                        <div class="alert alert-warning small">
+                            <i class="bi bi-exclamation-triangle"></i> <strong>Будьте внимательны!</strong> Не переводите деньги заранее и не доверяйте сомнительным предложениям.
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Похожие объявления -->
+                <div class="card mb-4">
+                    <div class="card-header bg-light">
+                        <h5 class="mb-0"><i class="bi bi-grid"></i> Похожие объявления</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="list-group list-group-flush">
+                            <a href="#" class="list-group-item list-group-item-action">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-1">Участок 8 соток в СНТ "Родник"</h6>
+                                    <small class="text-success">750 000 ₽</small>
+                                </div>
+                                <small class="text-muted"><i class="bi bi-geo-alt"></i> 12 км от города</small>
+                            </a>
+                            <a href="#" class="list-group-item list-group-item-action">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-1">Дачный участок 15 соток с домом</h6>
+                                    <small class="text-success">1 200 000 ₽</small>
+                                </div>
+                                <small class="text-muted"><i class="bi bi-geo-alt"></i> д. Заречное</small>
+                            </a>
+                            <a href="#" class="list-group-item list-group-item-action">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-1">Земельный участок ИЖС 10 соток</h6>
+                                    <small class="text-success">950 000 ₽</small>
+                                </div>
+                                <small class="text-muted"><i class="bi bi-geo-alt"></i> п. Солнечный</small>
+                            </a>
+                        </div>
+                        <a href="#" class="btn btn-outline-primary w-100 mt-3">Все похожие</a>
+                    </div>
+                </div>
+                
+                <!-- Статистика просмотров -->
+                <div class="card mb-4">
+                    <div class="card-body text-center">
+                        <div class="row">
+                            <div class="col-4">
+                                <div class="text-muted small">Просмотры</div>
+                                <div class="h5">247</div>
+                            </div>
+                            <div class="col-4">
+                                <div class="text-muted small">В избранном</div>
+                                <div class="h5">12</div>
+                            </div>
+                            <div class="col-4">
+                                <div class="text-muted small">Обновлено</div>
+                                <div class="h5">3 дня</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Подвал -->
+    <footer class="bg-dark text-white py-4 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h5><i class="bi bi-tree"></i> Дачник.ру</h5>
+                    <p class="small">Бесплатные объявления для дачников и садоводов с 2010 года.</p>
+                </div>
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h5>Помощь</h5>
+                    <ul class="list-unstyled small">
+                        <li><a href="#" class="text-white text-decoration-none">Как разместить объявление?</a></li>
+                        <li><a href="#" class="text-white text-decoration-none">Правила сайта</a></li>
+                        <li><a href="#" class="text-white text-decoration-none">Безопасность</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>Контакты</h5>
+                    <ul class="list-unstyled small">
+                        <li><i class="bi bi-envelope"></i> info@dachnik.ru</li>
+                        <li><i class="bi bi-telephone"></i> 8 (800) 123-45-67</li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="text-center small">
+                © 2025 Дачник.ру — Все права защищены
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

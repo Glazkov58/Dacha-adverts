@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация | Дачник.ру</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Иконки Bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <style>
+        .register-container {
+            max-width: 600px;
+        }
+        .register-card {
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .register-header {
+            border-radius: 15px 15px 0 0 !important;
+        }
+        .form-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6c757d;
+        }
+        .form-input {
+            padding-left: 40px;
+        }
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: #6c757d;
+            margin: 20px 0;
+        }
+        .divider::before, .divider::after {
+            content: "";
+            flex: 1;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .divider::before {
+            margin-right: 10px;
+        }
+        .divider::after {
+            margin-left: 10px;
+        }
+        .social-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: 500;
+        }
+        .social-btn i {
+            font-size: 1.2rem;
+            margin-right: 10px;
+        }
+        .btn-google {
+            background-color: #fff;
+            color: #757575;
+            border: 1px solid #ddd;
+        }
+        .btn-google:hover {
+            background-color: #f8f9fa;
+        }
+        .btn-vk {
+            background-color: #0077FF;
+            color: white;
+        }
+        .btn-vk:hover {
+            background-color: #0066DD;
+            color: white;
+        }
+        .password-toggle {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <!-- Навигационная панель -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container">
+            <a class="navbar-brand text-success" href="/">
+                <i class="bi bi-tree-fill"></i> Дачник.ру
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/auth"><i class="bi bi-box-arrow-in-right"></i> Вход</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Основное содержимое -->
+    <div class="container py-5">
+        <div class="register-container mx-auto">
+            <div class="register-card card overflow-hidden">
+                <!-- Заголовок -->
+                <div class="card-header register-header bg-success text-white text-center py-4">
+                    <h3><i class="bi bi-person-plus"></i> Создайте аккаунт</h3>
+                    <p class="mb-0">Присоединяйтесь к сообществу дачников</p>
+                </div>
+                
+                <!-- Тело формы -->
+                <div class="card-body p-4 p-md-5">
+                    <!-- Форма регистрации -->
+                    <form id="registerForm">
+                        <!-- Имя -->
+                        <div class="mb-4 position-relative">
+                            <i class="bi bi-person form-icon"></i>
+                            <input type="text" class="form-control form-input" id="firstName" placeholder="Имя" required>
+                        </div>
+                        
+                        <!-- Фамилия -->
+                        <div class="mb-4 position-relative">
+                            <i class="bi bi-person form-icon"></i>
+                            <input type="text" class="form-control form-input" id="lastName" placeholder="Фамилия">
+                        </div>
+                        
+                        <!-- Email -->
+                        <div class="mb-4 position-relative">
+                            <i class="bi bi-envelope form-icon"></i>
+                            <input type="email" class="form-control form-input" id="email" placeholder="Email" required>
+                        </div>
+                        
+                        <!-- Телефон -->
+                        <div class="mb-4 position-relative">
+                            <i class="bi bi-phone form-icon"></i>
+                            <input type="tel" class="form-control form-input" id="phone" placeholder="Телефон">
+                        </div>
+                        
+                        <!-- Пароль -->
+                        <div class="mb-4 position-relative">
+                            <i class="bi bi-lock form-icon"></i>
+                            <input type="password" class="form-control form-input" id="password" placeholder="Пароль" required>
+                            <i class="bi bi-eye password-toggle" id="togglePassword"></i>
+                        </div>
+                        
+                        <!-- Подтверждение пароля -->
+                        <div class="mb-4 position-relative">
+                            <i class="bi bi-lock form-icon"></i>
+                            <input type="password" class="form-control form-input" id="confirmPassword" placeholder="Подтвердите пароль" required>
+                        </div>
+                        
+                        <!-- Чекбоксы -->
+                        <div class="mb-4">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="agreeTerms" required>
+                                <label class="form-check-label" for="agreeTerms">
+                                    Я принимаю <a href="#">условия использования</a> и <a href="#">политику конфиденциальности</a>
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="newsletter">
+                                <label class="form-check-label" for="newsletter">
+                                    Получать полезные советы для дачников
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <!-- Кнопка регистрации -->
+                        <button type="submit" class="btn btn-success w-100 py-2 mb-3">
+                            <i class="bi bi-person-plus"></i> Зарегистрироваться
+                        </button>
+                        
+                        <!-- Разделитель -->
+                        <div class="divider">
+                            или
+                        </div>
+                        
+                        <!-- Социальные сети -->
+                        <div class="row g-2 mb-4">
+                            <div class="col-md-6">
+                                <button type="button" class="btn btn-google w-100">
+                                    <i class="bi bi-google"></i> Google
+                                </button>
+                            </div>
+                            <div class="col-md-6">
+                                <button type="button" class="btn btn-vk w-100">
+                                    <i class="bi bi-share"></i> ВКонтакте
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Ссылка на вход -->
+                        <div class="text-center">
+                            Уже есть аккаунт? <a href="/auth" class="text-success">Войти</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Дополнительная информация -->
+            <div class="text-center mt-4 text-muted">
+                <p>Регистрируясь, вы получаете возможность:</p>
+                <ul class="list-unstyled">
+                    <li><i class="bi bi-check-circle text-success"></i> Публиковать объявления</li>
+                    <li><i class="bi bi-check-circle text-success"></i> Сохранять избранные предложения</li>
+                    <li><i class="bi bi-check-circle text-success"></i> Общаться с другими дачниками</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Подвал -->
+    <footer class="bg-dark text-white py-4 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h5><i class="bi bi-tree"></i> Дачник.ру</h5>
+                    <p class="small">Сообщество дачников и садоводов.</p>
+                </div>
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h5>Помощь</h5>
+                    <ul class="list-unstyled small">
+                        <li><a href="#" class="text-white text-decoration-none">Частые вопросы</a></li>
+                        <li><a href="#" class="text-white text-decoration-none">Безопасность</a></li>
+                        <li><a href="#" class="text-white text-decoration-none">Обратная связь</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>Контакты</h5>
+                    <ul class="list-unstyled small">
+                        <li><i class="bi bi-envelope"></i> support@dachnik.ru</li>
+                        <li><i class="bi bi-telephone"></i> 8 (800) 123-45-67</li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="text-center small">
+                © 2025 Дачник.ру — Все права защищены
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Переключение видимости пароля
+        const togglePassword = document.querySelector('#togglePassword');
+        const password = document.querySelector('#password');
+        
+        togglePassword.addEventListener('click', function() {
+            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+            password.setAttribute('type', type);
+            this.classList.toggle('bi-eye');
+            this.classList.toggle('bi-eye-slash');
+        });
+        
+        // Валидация формы
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            if (password !== confirmPassword) {
+                alert('Пароли не совпадают!');
+                return;
+            }
+            
+            // Здесь можно добавить AJAX-запрос для отправки данных на сервер
+            alert('Регистрация прошла успешно! Добро пожаловать!');
+            // window.location.href = 'profile.html';
+        });
+        
+        // Маска для телефона
+        document.getElementById('phone').addEventListener('input', function(e) {
+            let x = e.target.value.replace(/\D/g, '').match(/(\d{0,1})(\d{0,3})(\d{0,3})(\d{0,2})(\d{0,2})/);
+            e.target.value = !x[2] ? x[1] : '+' + x[1] + ' (' + x[2] + ') ' + x[3] + (x[4] ? '-' + x[4] : '') + (x[5] ? '-' + x[5] : '');
+        });
+    </script>
+</body>
+</html>
