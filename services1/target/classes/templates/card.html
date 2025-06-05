@@ -139,8 +139,11 @@
                                 </div>
                                 <div class="spec-item">
                                     <i class="bi bi-lightning-charge spec-icon"></i>
-                                    <strong>Электричество:</strong> <span th:if="${dacha.isAdElectricity()}" th:text="'Электричество на участке'"></span>
-                                                                    <span th:else th:text="'Нет Электричества'"></span>
+                                    <strong>Электричество:</strong>
+                                    <span th:if="${dacha.isAdElectricity}" th:text="'Есть электричество'"></span>
+                                    <span th:unless="${dacha.isAdElectricity}" th:text="'Нет электричества'"></span> 
+                                    <!--<span th:if="${dacha.isAdElectricity()}" th:text="'Электричество на участке'"></span>
+                                                                    <span th:else th:text="'Нет Электричества'"></span>-->
                                 </div>
                                 <div class="spec-item">
                                     <i class="bi bi-droplet spec-icon"></i>

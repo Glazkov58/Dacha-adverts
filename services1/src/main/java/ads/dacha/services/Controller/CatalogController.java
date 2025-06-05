@@ -55,7 +55,37 @@ public class CatalogController {
         Advert advert = new Advert();
         advert.setAdTitle(advertDto.getAdTitle());
         advert.setAdDescription(advertDto.getAdDescription());
+        advert.setAdCategory(advertDto.getAdCategory());
+        
+        // Местоположение
+        advert.setAdRegion(advertDto.getAdRegion());
+        advert.setAdDistrict(advertDto.getAdDistrict());
+        advert.setAdCity(advertDto.getAdCity());
+        advert.setAdAddress(advertDto.getAdAddress());
+        
+        // Цена и площадь
         advert.setAdPrice(advertDto.getAdPrice());
+        advert.setAdArea(advertDto.getAdArea());
+        
+        // Особенности (конвертируем 0/1 в boolean)
+        advert.setAdElectricity(advertDto.getAdElectricity() == 1);
+        advert.setAdWater(advertDto.getAdWater() == 1);
+        advert.setAdGas(advertDto.getAdGas() == 1);
+        advert.setAdSewerage(advertDto.getAdSewerage() == 1);
+        advert.setAdSecurity(advertDto.getAdSecurity() == 1);
+        advert.setAdFruitTrees(advertDto.getAdFruitTrees() == 1);
+        advert.setAdBathhouse(advertDto.getAdBathhouse() == 1);
+        advert.setAdGarage(advertDto.getAdGarage() == 1);
+        advert.setAdFence(advertDto.getAdFence() == 1);
+        
+        // Контактная информация
+        advert.setContactName(advertDto.getContactName());
+        advert.setContactPhone(advertDto.getContactPhone());
+        advert.setContactEmail(advertDto.getContactEmail());
+        
+        // Статус и просмотры
+        advert.setAdActive(advertDto.getAdActive());
+        advert.setAdViews(advertDto.getAdViews());
 
         AdvertRepo.save(advert);
         return "redirect:/"; // Перенаправляем в каталог
@@ -64,7 +94,6 @@ public class CatalogController {
     //public String AddNewAdvert(Advert advert) {
         //AdvertRepo.save(advert);
         //return "catalog";
-        //Файл изменился
           
     
 
