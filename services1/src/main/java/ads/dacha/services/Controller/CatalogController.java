@@ -64,6 +64,7 @@ public class CatalogController {
     //public String AddNewAdvert(Advert advert) {
         //AdvertRepo.save(advert);
         //return "catalog";
+        //Файл изменился
           
     
 
