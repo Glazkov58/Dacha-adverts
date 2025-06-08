@@ -235,29 +235,61 @@
                                         <!--<span for="adElectricity"  class="badge bg-light text-dark feature-badge" id="adElectricity" name="adElectricity" data-selected="false">
                                             <i class="bi bi-square"></i> Электричество
                                         </span>-->
-                                        <span class="badge bg-light text-dark feature-badge" data-selected="false">
-                                            <i class="bi bi-square"></i> Вода
+                                        <input type="hidden" name="adWater" th:value="${advertDto.adWater}">
+                                        <span class="badge bg-light text-dark feature-badge" 
+                                            data-feature="adWater" 
+                                            th:attr="data-selected=${advertDto.adWater == 1}">
+                                            <i class="bi" 
+                                            th:class="${advertDto.adWater == 1} ? 'bi-check-square' : 'bi-square'"></i> Вода
                                         </span>
-                                        <span class="badge bg-light text-dark feature-badge" data-selected="false">
-                                            <i class="bi bi-square"></i> Газ
+                                        <input type="hidden" name="adGas" th:value="${advertDto.adGas}">
+                                        <span class="badge bg-light text-dark feature-badge" 
+                                            data-feature="adGas" 
+                                            th:attr="data-selected=${advertDto.adGas == 1}">
+                                            <i class="bi" 
+                                            th:class="${advertDto.adGas == 1} ? 'bi-check-square' : 'bi-square'"></i> Газ
                                         </span>
-                                        <span class="badge bg-light text-dark feature-badge" data-selected="false">
-                                            <i class="bi bi-square"></i> Канализация
+                                        <input type="hidden" name="adSewerage" th:value="${advertDto.adSewerage}">
+                                        <span class="badge bg-light text-dark feature-badge" 
+                                            data-feature="adSewerage" 
+                                            th:attr="data-selected=${advertDto.adSewerage == 1}">
+                                            <i class="bi" 
+                                            th:class="${advertDto.adSewerage == 1} ? 'bi-check-square' : 'bi-square'"></i> Канализация
                                         </span>
-                                        <span class="badge bg-light text-dark feature-badge" data-selected="false">
-                                            <i class="bi bi-square"></i> Охрана
+                                        <input type="hidden" name="adSecurity" th:value="${advertDto.adSecurity}">
+                                        <span class="badge bg-light text-dark feature-badge" 
+                                            data-feature="adSecurity" 
+                                            th:attr="data-selected=${advertDto.adSecurity == 1}">
+                                            <i class="bi" 
+                                            th:class="${advertDto.adSecurity == 1} ? 'bi-check-square' : 'bi-square'"></i> Охрана
                                         </span>
-                                        <span class="badge bg-light text-dark feature-badge" data-selected="false">
-                                            <i class="bi bi-square"></i> Плодовые деревья
+                                        <input type="hidden" name="adFruitTrees" th:value="${advertDto.adFruitTrees}">
+                                        <span class="badge bg-light text-dark feature-badge" 
+                                            data-feature="adFruitTrees" 
+                                            th:attr="data-selected=${advertDto.adFruitTrees == 1}">
+                                            <i class="bi" 
+                                            th:class="${advertDto.adFruitTrees == 1} ? 'bi-check-square' : 'bi-square'"></i> Плодовые деревья
                                         </span>
-                                        <span class="badge bg-light text-dark feature-badge" data-selected="false">
-                                            <i class="bi bi-square"></i> Баня
+                                        <input type="hidden" name="adBathhouse" th:value="${advertDto.adBathhouse}">
+                                        <span class="badge bg-light text-dark feature-badge" 
+                                            data-feature="adBathhouse" 
+                                            th:attr="data-selected=${advertDto.adBathhouse == 1}">
+                                            <i class="bi" 
+                                            th:class="${advertDto.adBathhouse == 1} ? 'bi-check-square' : 'bi-square'"></i> Баня
                                         </span>
-                                        <span class="badge bg-light text-dark feature-badge" data-selected="false">
-                                            <i class="bi bi-square"></i> Гараж
+                                        <input type="hidden" name="adGarage" th:value="${advertDto.adGarage}">
+                                        <span class="badge bg-light text-dark feature-badge" 
+                                            data-feature="adGarage" 
+                                            th:attr="data-selected=${advertDto.adGarage == 1}">
+                                            <i class="bi" 
+                                            th:class="${advertDto.adGarage == 1} ? 'bi-check-square' : 'bi-square'"></i> Гараж
                                         </span>
-                                        <span class="badge bg-light text-dark feature-badge" data-selected="false">
-                                            <i class="bi bi-square"></i> Ограждение
+                                        <input type="hidden" name="adFence" th:value="${advertDto.adFence}">
+                                        <span class="badge bg-light text-dark feature-badge" 
+                                            data-feature="adFence" 
+                                            th:attr="data-selected=${advertDto.adFence == 1}">
+                                            <i class="bi" 
+                                            th:class="${advertDto.adFence == 1} ? 'bi-check-square' : 'bi-square'"></i> Ограждение
                                         </span>
                                     </div>
                                     <input type="text" class="form-control mt-2" id="adOtherFeatures" name="adOtherFeatures" placeholder="Другие особенности (через запятую)">
