@@ -1,8 +1,14 @@
 package ads.dacha.services.Controller;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -10,7 +16,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import ads.dacha.services.models.Advert;
 import ads.dacha.services.models.AdvertDto;
@@ -22,6 +29,9 @@ import jakarta.validation.Valid;
 public class CatalogController {
 
     private final AdvertRepository AdvertRepo;
+
+    @Value("${upload.path}") // путь для загрузки файлов из application.properties
+    private String uploadPath;
 
     @Autowired
     public CatalogController(AdvertRepository repo){
@@ -42,15 +52,15 @@ public class CatalogController {
 
     @PostMapping("/addadvert")
     public String addNewAdvert(
-            @Valid @ModelAttribute("advertDto") AdvertDto advertDto,
-            BindingResult bindingResult,
-            Model model
-    ) {
+            @ModelAttribute("advertDto") AdvertDto advertDto,
+            @RequestParam("photoFiles") MultipartFile photoFiles
+    ) throws IOException {        
+        /*
         if (bindingResult.hasErrors()) {
             // Возвращаем форму с ошибками
             return "addadvert";
         }
-
+        */
         // Конвертируем DTO в сущность Advert
         Advert advert = new Advert();
         advert.setAdTitle(advertDto.getAdTitle());
@@ -87,19 +97,69 @@ public class CatalogController {
         advert.setAdActive(advertDto.getAdActive());
         advert.setAdViews(advertDto.getAdViews());
 
+        if (photoFiles != null && !photoFiles.isEmpty()) {
+            String fileName = savePhoto(photoFiles);
+            advert.setPhotoPath(fileName);
+        }
+
+        AdvertRepo.save(advert);
+        return "redirect:/"; // Перенаправляем в каталог
+    }
+
+    private String savePhoto(MultipartFile file) throws IOException {
+        // Создаем директорию, если ее нет
+        Path uploadDir = Paths.get(uploadPath);
+        if (!Files.exists(uploadDir)) {
+            Files.createDirectories(uploadDir);
+        }
+            
+        // Генерируем уникальное имя файла
+        String fileExtension = getFileExtension(file.getOriginalFilename());
+        String uuidFile = UUID.randomUUID().toString();
+        String fileName = uuidFile + "." + fileExtension;
+
+        Path filePath = uploadDir.resolve(fileName);
+        file.transferTo(filePath);
+
+        return fileName;
+    }
+
+    private String getFileExtension(String fileName) {
+        if (fileName == null || fileName.lastIndexOf(".") == -1) {
+            return "";
+        }
+        return fileName.substring(fileName.lastIndexOf(".") + 1);
+    }
+            
+            // Сохраняем файл
+            /*photoFiles.transferTo(Paths.get(uploadPath + "/" + resultFilename));
+            
+            // Сохраняем путь к файлу в базе данных
+            advert.setPhotoPath(resultFilename);
+        } else {
+            System.out.println("No photo");
+        }
+
         AdvertRepo.save(advert);
         return "redirect:/"; // Перенаправляем в каталог
     }
     
     //public String AddNewAdvert(Advert advert) {
         //AdvertRepo.save(advert);
-        //return "catalog";
+        //return "catalog";*/
           
     
 
     @GetMapping("/card/{id}")
     public String getCard(@PathVariable long id, Model model) {
-        Advert adv = AdvertRepo.findById(id).get();
+        Advert adv = AdvertRepo.findById(id).orElseThrow();
+        if (adv.getPhotoPath() != null && !adv.getPhotoPath().isEmpty()) {
+        Path photoPath = Paths.get(uploadPath, adv.getPhotoPath());
+        if (!Files.exists(photoPath)) {
+            System.out.println("Файл не найден: " + photoPath.toAbsolutePath());
+            adv.setPhotoPath(null); // Очищаем путь, если файл не существует
+        }
+    }
         model.addAttribute("dacha", adv);
         return "card";
     }

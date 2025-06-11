@@ -100,7 +100,7 @@
                     </div>
                     <div class="card-body">
                         <!-- Форма добавления объявления -->
-                        <form id="addAdForm" method="post">
+                       <form th:action="@{/addadvert}" th:object="${advertDto}" method="post" enctype="multipart/form-data">
                             <!-- 1. Основная информация -->
                             <div class="form-section">
                                 <h5 class="section-title"><i class="bi bi-info-circle"></i> Основная информация</h5>
@@ -131,7 +131,37 @@
                             </div>
                             
                             <!-- 2. Фотографии -->
-                            <div class="form-section">
+                             
+                             <div class="form-section">
+                                    <h5 class="section-title"><i class="bi bi-images"></i> Фотографии</h5>
+                                    <div class="alert alert-info">
+                                        <i class="bi bi-info-circle"></i> Первое фото будет главным. Можно загрузить до 10 фото.
+                                    </div>
+                                    
+                                    <div class="image-upload-container mb-3" id="imageUploadArea" 
+                                        ondragover="event.preventDefault(); this.classList.add('dragover');" 
+                                        ondragleave="this.classList.remove('dragover');" 
+                                        ondrop="event.preventDefault(); this.classList.remove('dragover'); handleDrop(event);">
+                                        <i class="bi bi-cloud-arrow-up upload-icon" style="font-size: 2rem; color: #198754;"></i>
+                                        <h5>Перетащите сюда фотографии</h5>
+                                        <p class="text-muted">или</p>
+                                        <button type="button" class="btn btn-outline-success" id="selectImagesBtn" onclick="document.getElementById('imageInput').click()">
+                                            <i class="bi bi-folder2-open"></i> Выбрать файлы
+                                        </button>
+                                        <input type="file" id="imageInput" name="photoFiles" multiple accept="image/jpeg,image/png" 
+                                            style="display: none;" onchange="handleFileSelect(this.files)">
+                                    </div>
+                                    
+                                    <div class="image-preview-container" id="imagePreviews"></div>
+
+                                    <div th:if="${imageError}" class="alert alert-danger mt-2" th:text="${imageError}"></div>
+                                    
+                                    <div class="alert alert-warning small mt-2">
+                                        <i class="bi bi-exclamation-triangle"></i> Максимальный размер файла - 5 МБ. Разрешены форматы: JPG, PNG.
+                                    </div>
+                                </div>                                    
+                            
+                            <!--<div class="form-section">
                                 <h5 class="section-title"><i class="bi bi-images"></i> Фотографии</h5>
                                 <div class="alert alert-info">
                                     <i class="bi bi-info-circle"></i> Первое фото будет главным. Можно загрузить до 10 фото.
@@ -154,7 +184,7 @@
                                 <div class="alert alert-warning small mt-2">
                                     <i class="bi bi-exclamation-triangle"></i> Максимальный размер файла - 5 МБ. Разрешены форматы: JPG, PNG.
                                 </div>
-                            </div>
+                            </div>-->
                             
                             <!-- 3. Местоположение -->
                             <div class="form-section">
@@ -228,13 +258,6 @@
                                             <i class="bi" 
                                             th:class="${advertDto.adElectricity == 1} ? 'bi-check-square' : 'bi-square'"></i> Электричество
                                         </span>
-                                        <!--<input type="hidden" name="adElectricity" value="0">
-                                        <span class="badge bg-light text-dark feature-badge" data-feature="electricity" data-selected="false">
-                                            <i class="bi bi-square"></i> Электричество
-                                        </span>-->
-                                        <!--<span for="adElectricity"  class="badge bg-light text-dark feature-badge" id="adElectricity" name="adElectricity" data-selected="false">
-                                            <i class="bi bi-square"></i> Электричество
-                                        </span>-->
                                         <input type="hidden" name="adWater" th:value="${advertDto.adWater}">
                                         <span class="badge bg-light text-dark feature-badge" 
                                             data-feature="adWater" 
@@ -393,6 +416,64 @@
     
     <script>
         // Обработка загрузки изображений
+        function handleFileSelect(files) {
+        if (files.length > 10) {
+            alert('Можно загрузить не более 10 фотографий');
+            return;
+        }
+        
+        const previewContainer = document.getElementById('imagePreviews');
+        previewContainer.innerHTML = '';
+        
+        Array.from(files).forEach((file, index) => {
+            if (!file.type.match('image.*')) {
+                alert('Пожалуйста, выбирайте только изображения');
+                return;
+            }
+            
+            if (file.size > 5 * 1024 * 1024) {
+                alert(`Файл "${file.name}" слишком большой. Максимальный размер - 5 МБ.`);
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const preview = document.createElement('div');
+                preview.className = 'image-preview';
+                preview.innerHTML = `
+                    <img src="${e.target.result}" alt="Preview">
+                    <button type="button" class="btn btn-danger btn-sm remove-btn" onclick="removeImage(${index})">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                    ${index === 0 ? '<span class="badge bg-primary">Главное</span>' : ''}
+                `;
+                previewContainer.appendChild(preview);
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+    
+        // Обработчик drag and drop
+        /*function handleDrop(event) {
+            const files = event.dataTransfer.files;
+            handleFileSelect(files);
+            document.getElementById('imageInput').files = files;
+        }
+        
+        // Удаление изображения
+        function removeImage(index) {
+            const input = document.getElementById('imageInput');
+            const files = Array.from(input.files);
+            files.splice(index, 1);
+            
+            // Обновляем FileList (немного сложно, так как FileList immutable)
+            const dataTransfer = new DataTransfer();
+            files.forEach(file => dataTransfer.items.add(file));
+            input.files = dataTransfer.files;
+            
+            // Обновляем превью
+            handleFileSelect(input.files);
+        }
         document.getElementById('selectImagesBtn').addEventListener('click', function() {
             document.getElementById('imageInput').click();
         });
@@ -402,7 +483,7 @@
             handleFiles(files);
         });
         
-        const imageUploadArea = document.getElementById('imageUploadArea');
+        const imageUploadArea = document.getElementById('imageUploadArea');*/
         
         // Обработка drag and drop
         ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {

@@ -1,6 +1,8 @@
 package ads.dacha.services.models;
 
 
+import org.springframework.web.multipart.MultipartFile;
+
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Min;
@@ -70,4 +72,14 @@ public class AdvertDto {
     private Boolean adActive = true;
     
     private Integer adViews = 0;
+
+    private MultipartFile photoFile;
+
+    public MultipartFile getPhotoFile() {
+        return photoFile;
+    }
+
+    public void setPhotoFile(MultipartFile photoFile) {
+        this.photoFile = photoFile;
+    }
 }
