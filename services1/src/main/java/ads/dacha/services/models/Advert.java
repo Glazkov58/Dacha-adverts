@@ -1,10 +1,17 @@
 package ads.dacha.services.models;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
+import jakarta.persistence.CollectionTable;
+import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 
 @Entity
 public class Advert {
@@ -36,15 +43,22 @@ public class Advert {
     private String contactName;
     private String contactPhone;
     private String contactEmail;
-    private String photoPath;
+    private List<String> photoPaths = new ArrayList<>();
 
-    
-    public String getPhotoPath() {
-        return photoPath;
+    @ElementCollection
+    @CollectionTable(name = "advert_photos", joinColumns = @JoinColumn(name = "advert_id"))
+    @Column(name = "photo_path")
+
+    public List<String> getPhotoPaths() {
+        return photoPaths;
     }
 
-    public void setPhotoPath(String photoPath) {
-        this.photoPath = photoPath;
+    public void setPhotoPaths(List<String> photoPaths) {
+        this.photoPaths = photoPaths;
+    }
+
+    public void addPhotoPath(String path) {
+        this.photoPaths.add(path);
     }
 
     public String getAdTitle() {

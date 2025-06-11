@@ -147,9 +147,9 @@
                     <div class="col" th:each="dacha : ${ads}">
                         <div class="card h-100">
                             <div class="position-relative">
-                                <img th:if="${dacha.photoPath}" th:src="@{'/uploads/' + ${dacha.photoPath}}" 
+                                <img th:if="${not #lists.isEmpty(dacha.photoPaths)}" th:src="@{'/uploads/' + ${dacha.photoPaths[0]}}" 
                                      class="card-img-top" alt="Фото объекта" style="height: 200px; object-fit: cover;">
-                                <img th:unless="${dacha.photoPath}" src="/static/images/no-image.jpg" 
+                                <img th:unless="${dacha.photoPaths}" src="/static/images/no-image.jpg" 
                                      class="card-img-top" alt="Нет фото" style="height: 200px; object-fit: cover;">
                                 <span class="position-absolute top-0 end-0 bg-danger text-white p-2">Срочно!</span>
                             </div>

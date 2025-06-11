@@ -1,6 +1,8 @@
 package ads.dacha.services.models;
 
 
+import java.util.List;
+
 import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.validation.constraints.DecimalMin;
@@ -73,13 +75,13 @@ public class AdvertDto {
     
     private Integer adViews = 0;
 
-    private MultipartFile photoFile;
+    private List<MultipartFile> photoFiles;
 
-    public MultipartFile getPhotoFile() {
-        return photoFile;
+    public List<MultipartFile> getPhotoFiles() {
+        return photoFiles;
     }
 
-    public void setPhotoFile(MultipartFile photoFile) {
-        this.photoFile = photoFile;
+    public void setPhotoFile(List<MultipartFile> photoFiles) {
+        this.photoFiles = photoFiles;
     }
 }

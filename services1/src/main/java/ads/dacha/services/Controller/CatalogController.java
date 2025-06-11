@@ -4,9 +4,12 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -37,6 +40,7 @@ public class CatalogController {
     public CatalogController(AdvertRepository repo){
         AdvertRepo = repo;
     }
+    private static final Logger logger = LoggerFactory.getLogger(CatalogController.class);
     @GetMapping("/")
     public String showHomePage(Model model){
         List<Advert>ads = AdvertRepo.findAll();
@@ -52,8 +56,10 @@ public class CatalogController {
 
     @PostMapping("/addadvert")
     public String addNewAdvert(
-            @ModelAttribute("advertDto") AdvertDto advertDto,
-            @RequestParam("photoFiles") MultipartFile photoFiles
+            @Valid @ModelAttribute("advertDto") AdvertDto advertDto,
+            BindingResult bindingResult,
+            Model model
+            //@RequestParam("photoFiles") MultipartFile photoFiles
     ) throws IOException {        
         /*
         if (bindingResult.hasErrors()) {
@@ -97,16 +103,37 @@ public class CatalogController {
         advert.setAdActive(advertDto.getAdActive());
         advert.setAdViews(advertDto.getAdViews());
 
-        if (photoFiles != null && !photoFiles.isEmpty()) {
+        /*if (photoFiles != null && !photoFiles.isEmpty()) {
             String fileName = savePhoto(photoFiles);
             advert.setPhotoPath(fileName);
+        }*/
+
+        Advert saveAdvert = AdvertRepo.save(advert);
+
+        String advertFolder = "advert_" + saveAdvert.getId();
+        Path advertPath = Paths.get(uploadPath, advertFolder);
+        Files.createDirectories(advertPath);
+
+        if (advertDto.getPhotoFiles() != null) {
+            for (MultipartFile file : advertDto.getPhotoFiles()) {
+                if (!file.isEmpty()) {
+                    String fileName = savePhoto(file, advertPath.toString());
+                    saveAdvert.addPhotoPath(advertFolder + "/" + fileName);
+                }
+            }
+            AdvertRepo.save(saveAdvert);
         }
 
-        AdvertRepo.save(advert);
         return "redirect:/"; // Перенаправляем в каталог
     }
 
-    private String savePhoto(MultipartFile file) throws IOException {
+
+    
+
+    private String savePhoto(MultipartFile file, String folderPath) throws IOException {
+        String fileExtension = file.getOriginalFilename()
+            .substring(file.getOriginalFilename().lastIndexOf("."));
+        String fileName = UUID.randomUUID() + fileExtension;
         // Создаем директорию, если ее нет
         Path uploadDir = Paths.get(uploadPath);
         if (!Files.exists(uploadDir)) {
@@ -114,12 +141,14 @@ public class CatalogController {
         }
             
         // Генерируем уникальное имя файла
-        String fileExtension = getFileExtension(file.getOriginalFilename());
+        /*String fileExtension = getFileExtension(file.getOriginalFilename());
         String uuidFile = UUID.randomUUID().toString();
         String fileName = uuidFile + "." + fileExtension;
 
         Path filePath = uploadDir.resolve(fileName);
-        file.transferTo(filePath);
+        file.transferTo(filePath);*/
+        Path targetPath = Paths.get(folderPath, fileName);
+        file.transferTo(targetPath);
 
         return fileName;
     }
@@ -153,12 +182,23 @@ public class CatalogController {
     @GetMapping("/card/{id}")
     public String getCard(@PathVariable long id, Model model) {
         Advert adv = AdvertRepo.findById(id).orElseThrow();
-        if (adv.getPhotoPath() != null && !adv.getPhotoPath().isEmpty()) {
-        Path photoPath = Paths.get(uploadPath, adv.getPhotoPath());
+        if (adv.getPhotoPaths() != null && !adv.getPhotoPaths().isEmpty()) {
+            List<String> validPhotoPaths = new ArrayList<>();
+
+            for (String photoPath : adv.getPhotoPaths()) {
+            Path fullPath = Paths.get(uploadPath, photoPath);
+            if (Files.exists(fullPath)) {
+                validPhotoPaths.add(photoPath);
+            } else {
+                logger.warn("Фото не найдено: {}", fullPath);
+            }
+        }
+        adv.setPhotoPaths(validPhotoPaths);
+        /*Path photoPath = Paths.get(uploadPath, adv.getPhotoPaths());
         if (!Files.exists(photoPath)) {
             System.out.println("Файл не найден: " + photoPath.toAbsolutePath());
-            adv.setPhotoPath(null); // Очищаем путь, если файл не существует
-        }
+            adv.setPhotoPaths(null); // Очищаем путь, если файл не существует
+        }*/
     }
         model.addAttribute("dacha", adv);
         return "card";
