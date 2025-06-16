@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -93,6 +93,7 @@
     </style>
 </head>
 <body class="bg-light">
+    <div th:if="${error}" class="alert alert-danger mt-3" th:text="${error}"></div>
     <!-- Навигационная панель -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
         <div class="container">
@@ -125,17 +126,18 @@
                 <!-- Тело формы -->
                 <div class="card-body p-4 p-md-5">
                     <!-- Форма входа -->
-                    <form id="loginForm">
+                    <form id="loginForm" th:action="@{/auth}" th:object="${authDto}" method="post">
                         <!-- Email -->
                         <div class="mb-4 position-relative">
                             <i class="bi bi-envelope form-icon"></i>
-                            <input type="email" class="form-control form-input" id="loginEmail" placeholder="Email" required>
+                            <input type="email" class="form-control form-input" th:field="*{email}"  id="email" name="username"
+               autocomplete="email" placeholder="Email" required>
                         </div>
                         
                         <!-- Пароль -->
                         <div class="mb-4 position-relative">
                             <i class="bi bi-lock form-icon"></i>
-                            <input type="password" class="form-control form-input" id="loginPassword" placeholder="Пароль" required>
+                            <input type="password" class="form-control form-input"  th:field="*{password}" id="loginPassword" name="password" autocomplete="current-password" placeholder="Пароль" required>
                             <i class="bi bi-eye password-toggle" id="toggleLoginPassword"></i>
                         </div>
                         
@@ -241,13 +243,13 @@
         });
         
         // Валидация формы
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
+        /*document.getElementById('loginForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
             // Здесь можно добавить AJAX-запрос для отправки данных на сервер
             // Пример проверки (демо-версия)
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
+            //const email = document.getElementById('loginEmail').value;
+            //const password = document.getElementById('loginPassword').value;
             
             if(email && password) {
                 alert('Вход выполнен успешно!');
@@ -255,7 +257,7 @@
             } else {
                 alert('Пожалуйста, заполните все поля!');
             }
-        });
+        });*/
     </script>
 </body>
 </html>

@@ -47,7 +47,7 @@ public class Advert {
 
     @ElementCollection
     @CollectionTable(name = "advert_photos", joinColumns = @JoinColumn(name = "advert_id"))
-    @Column(name = "photo_path")
+    @Column(name = "photo_path", length = 3000)
 
     public List<String> getPhotoPaths() {
         return photoPaths;

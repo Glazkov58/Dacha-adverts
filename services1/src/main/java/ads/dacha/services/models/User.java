@@ -1,9 +1,12 @@
 package ads.dacha.services.models;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
 public class User {
@@ -13,9 +16,12 @@ public class User {
 
     private String firstname;
     private String secondname;
-    private int password;
+    private String password;
     private String email;
-    private int phone;
+    private String phone;
+    private String role = "USER";
+
+
 
     public Long getId() {
         return id;
@@ -38,25 +44,37 @@ public class User {
         this.secondname = secondname;
     }
 
-    public int getPassword() {
+    public String getPassword() {
         return password;
     }
-    public void setPassword(int password) {
-        this.password = password;
+    public void setPassword(String password) {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        this.password = encoder.encode(password);
     }
 
     public String getEmail() {
         return email;
     }
     public void setEmail(String email) {
+        if (email == null || !email.contains("@")) {
+            throw new IllegalArgumentException("Invalid email");
+        }
         this.email = email;
     }
 
-    public int getPhone() {
+    public String getPhone() {
         return phone;
     }
-    public void setPhone(int phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
 }
