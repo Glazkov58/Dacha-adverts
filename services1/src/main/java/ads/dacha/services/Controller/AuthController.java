@@ -117,22 +117,22 @@ public class AuthController {
         System.out.println("Password (raw): " + user.getPassword());
         System.out.println("Confirm Password: " + confirmPassword);
         
-        if (user.getPassword().startsWith("$2a$")) {
-        model.addAttribute("error", "Ошибка: пароль уже захеширован");
-        return "reg";
-        }
-        
         if (userRepo.existsByEmail(user.getEmail())) {
             model.addAttribute("error", "Email уже используется");
             model.addAttribute("user", user);
             return "reg";
         }
 
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(10);
         if (!user.getPassword().equals(confirmPassword)) {
+        model.addAttribute("error", "Пароли не совпадают");
+        return "reg";
+    }
+        /*if (!encoder.matches(confirmPassword, user.getPassword())) {
             model.addAttribute("error", "Пароли не совпадают");
             model.addAttribute("user", user); // Сохраняем введенные данные
             return "reg";
-        }
+        }*/
 
         if (user.getPassword().length() < 8) {
             model.addAttribute("error", "Пароль должен содержать минимум 8 символов");
@@ -140,8 +140,8 @@ public class AuthController {
             return "reg";
         }
 
-        String encodedPassword = passwordEncoder.encode(confirmPassword.trim());
-        System.out.println("Encoded during registration: " + encodedPassword);
+        //String encodedPassword = passwordEncoder.encode(confirmPassword.trim());
+        //System.out.println("Encoded during registration: " + encodedPassword);
 
         /*if (!user.getPassword().equals(passwordConfirm)) {
             model.addAttribute("error", "Пароли не совпадают");

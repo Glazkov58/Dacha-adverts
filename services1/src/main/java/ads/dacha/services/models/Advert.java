@@ -8,10 +8,12 @@ import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Advert {
@@ -43,11 +45,23 @@ public class Advert {
     private String contactName;
     private String contactPhone;
     private String contactEmail;
-    private List<String> photoPaths = new ArrayList<>();
-
+    
     @ElementCollection
     @CollectionTable(name = "advert_photos", joinColumns = @JoinColumn(name = "advert_id"))
     @Column(name = "photo_path", length = 3000)
+    private List<String> photoPaths = new ArrayList<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public List<String> getPhotoPaths() {
         return photoPaths;

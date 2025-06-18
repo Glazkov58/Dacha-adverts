@@ -6,7 +6,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 
 @Entity
 public class User {
@@ -48,9 +47,12 @@ public class User {
         return password;
     }
     public void setPassword(String password) {
+        this.password = password; // Просто присваиваем значение
+    }
+    /*public void setPassword(String password) {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         this.password = encoder.encode(password);
-    }
+    }*/
 
     public String getEmail() {
         return email;

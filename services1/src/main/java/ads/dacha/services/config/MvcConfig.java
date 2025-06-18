@@ -12,8 +12,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder.BCryptVe
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
+import org.springframework.security.web.savedrequest.NullRequestCache;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.resource.PathResourceResolver;
 
 
 @Configuration
@@ -27,6 +29,7 @@ public class MvcConfig implements WebMvcConfigurer{
         registry.addResourceHandler("/uploads/**")
                 .addResourceLocations("file:" + uploadPath + "/")
                 .setCachePeriod(3600);
+            
 
         registry.addResourceHandler("/static/**")
                 .addResourceLocations("classpath:/static/")
@@ -42,12 +45,15 @@ public class MvcConfig implements WebMvcConfigurer{
             )
             .formLogin(form -> form
             .loginPage("/auth")
-            .loginProcessingUrl("/auth")  // Обработчик формы входа
+            .loginProcessingUrl("/login")  // Обработчик формы входа
             .usernameParameter("email")   // Указываем имя поля email
             .passwordParameter("password") // Указываем имя поля пароля
             .defaultSuccessUrl("/", true) // Обязательный редирект
             .failureUrl("/auth?error=true")
             .permitAll()
+            )
+            .requestCache(request -> request
+                .requestCache(new NullRequestCache())
             )
             .logout(logout -> logout
                 .logoutUrl("/logout")
