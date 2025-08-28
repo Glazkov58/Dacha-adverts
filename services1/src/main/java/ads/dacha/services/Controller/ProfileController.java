@@ -1,6 +1,7 @@
 package ads.dacha.services.Controller;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,33 +15,31 @@ import ads.dacha.services.models.Advert;
 import ads.dacha.services.models.AdvertRepository;
 import ads.dacha.services.models.User;
 import ads.dacha.services.models.UserRepository;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
-@RequestMapping("/profile")
 public class ProfileController {
-
-    private final AdvertRepository advertRepository;
-    private final UserRepository userRepository;
-
+    
     @Autowired
-    public ProfileController(AdvertRepository advertRepository, UserRepository userRepository) {
-        this.advertRepository = advertRepository;
-        this.userRepository = userRepository;
-    }
-
-    @GetMapping
-    public String showUserProfile(Model model, Principal principal) {
-        // Получаем текущего пользователя
-        User user = userRepository.findByEmail(principal.getName())
-            .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    private UserRepository userRepo;
+    
+    @Autowired
+    private AdvertRepository advertRepo; // Предполагая, что у вас есть репозиторий для объявлений
+    
+    @GetMapping("/profile")
+    public String showProfile(HttpSession session, Model model) {
+        User currentUser = (User) session.getAttribute("currentUser");
+        
+        if (currentUser == null) {
+            return "redirect:/auth";
+        }
         
         // Получаем объявления пользователя
-        List<Advert> userAdverts = advertRepository.findByUser(user);
+        List<Advert> userAdverts = advertRepo.findByUserId(currentUser.getId());
         
-        model.addAttribute("user", user);
-        model.addAttribute("userAdverts", userAdverts);
+        model.addAttribute("user", currentUser);
+        model.addAttribute("userAdverts", userAdverts != null ? userAdverts : new ArrayList<>());
         
         return "profile";
     }
-    
 }

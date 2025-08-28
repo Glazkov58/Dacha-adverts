@@ -25,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import ads.dacha.services.models.Advert;
 import ads.dacha.services.models.AdvertDto;
 import ads.dacha.services.models.AdvertRepository;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 
@@ -46,8 +47,8 @@ public class CatalogController {
         List<Advert>ads = AdvertRepo.findAll();
         model.addAttribute("ads", ads);
         return "catalog";
-    }        
-
+    }
+    
     @GetMapping("/addadvert")
     public String showAddAdvertForm(Model model) {
         model.addAttribute("advertDto", new AdvertDto()); // Пустой DTO для формы

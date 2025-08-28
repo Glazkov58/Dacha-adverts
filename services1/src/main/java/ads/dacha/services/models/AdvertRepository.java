@@ -9,4 +9,6 @@ public interface AdvertRepository extends JpaRepository<Advert, Long> {
     List<Advert> findByUser(User user);
     //List<Advert> getAds();
 
+    List<Advert> findByUserId(Long id);
+
 }
