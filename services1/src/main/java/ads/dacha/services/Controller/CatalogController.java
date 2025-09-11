@@ -205,6 +205,18 @@ public class CatalogController {
         return "card";
     }
 
+    @GetMapping("/search")
+    public String search(@RequestParam String query, Model model){
+        System.out.println("Запрос: " + query);
+        List<Advert> adverts = AdvertRepo.findByTitle(query);
+        System.out.println("Найдено:" + adverts.size());
+
+        model.addAttribute("ads", adverts);
+        return "catalog";
+
+    }
+
+
 
 
 
