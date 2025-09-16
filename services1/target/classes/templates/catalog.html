@@ -112,22 +112,23 @@
                 </div>
                 
                 <!-- Фильтры -->
+                 <form method="get" action="/filter">
                 <div class="card mb-4">
                     <div class="card-body">
                         <div class="row g-2">
                             <div class="col-md-4">
-                                <select class="form-select">
-                                    <option selected>Все категории</option>
-                                    <option>Продажа участков</option>
-                                    <option>Аренда дач</option>
-                                    <option>Саженцы</option>
-                                    <option>Инструменты</option>
-                                    <option>Услуги</option>
+                                <select class="form-select" name="category">
+                                    <option selected value="">Все категории</option>
+                                    <option value="Продажа">Продажа участков</option>
+                                    <option value="Аренда">Аренда дач</option>
+                                    <option value="Саженцы">Саженцы</option>
+                                    <option value="Инструменты">Инструменты</option>
+                                    <option value="Услуги">Услуги</option>
                                 </select>
                             </div>
                             <div class="col-md-4">
-                                <select class="form-select">
-                                    <option selected>Любой район</option>
+                                <select class="form-select" name="region">
+                                    <option selected value="">Любой район</option>
                                     <option>Северный</option>
                                     <option>Южный</option>
                                     <option>Западный</option>
@@ -135,11 +136,12 @@
                                 </select>
                             </div>
                             <div class="col-md-4">
-                                <button class="btn btn-primary w-100"><i class="bi bi-funnel"></i> Фильтровать</button>
+                                <button class="btn btn-primary w-100"><i class="bi bi-funnel" type="submit"></i> Фильтровать</button>
                             </div>
                         </div>
                     </div>
                 </div>
+                 </form>
                 
                 <!-- Объявления -->
                 <div class="row row-cols-1 row-cols-md-2 g-4">

@@ -25,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import ads.dacha.services.models.Advert;
 import ads.dacha.services.models.AdvertDto;
 import ads.dacha.services.models.AdvertRepository;
+import ads.dacha.services.models.User;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
@@ -181,7 +182,7 @@ public class CatalogController {
     
 
     @GetMapping("/card/{id}")
-    public String getCard(@PathVariable long id, Model model) {
+    public String getCard(@PathVariable long id, Model model, HttpSession session) {
         Advert adv = AdvertRepo.findById(id).orElseThrow();
         if (adv.getPhotoPaths() != null && !adv.getPhotoPaths().isEmpty()) {
             List<String> validPhotoPaths = new ArrayList<>();
@@ -200,7 +201,9 @@ public class CatalogController {
             System.out.println("Файл не найден: " + photoPath.toAbsolutePath());
             adv.setPhotoPaths(null); // Очищаем путь, если файл не существует
         }*/
-    }
+        }
+        User user = (User)session.getAttribute("currentUser");
+        model.addAttribute("currentUser", user);
         model.addAttribute("dacha", adv);
         return "card";
     }
@@ -214,6 +217,19 @@ public class CatalogController {
         model.addAttribute("ads", adverts);
         return "catalog";
 
+    }
+    @GetMapping("/filter")
+    public String filter(@RequestParam(required = false) String category,
+        @RequestParam(required = false) String region, Model model) {
+            if (category.isEmpty()) {
+                category = null;
+            }
+            if (region.isEmpty()) {
+                region = null;
+            }
+        List<Advert> adverts = AdvertRepo.findByFilter(category,region);
+        model.addAttribute("ads", adverts);
+        return "catalog";
     }
 
 

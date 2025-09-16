@@ -16,4 +16,7 @@ public interface AdvertRepository extends JpaRepository<Advert, Long> {
     @Query("SELECT a FROM Advert a WHERE a.adTitle LIKE CONCAT('%', :query, '%')")
     List<Advert> findByTitle(@Param("query") String query);
 
+    @Query("SELECT a FROM Advert a WHERE (:category IS NULL OR a.adCategory = :category) AND(:region IS NULL OR a.adDistrict = :region)")
+    List<Advert> findByFilter(@Param("category") String category, @Param("region") String region);
+
 }
