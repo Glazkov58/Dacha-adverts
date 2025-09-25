@@ -120,7 +120,7 @@ public class CatalogController {
             for (MultipartFile file : advertDto.getPhotoFiles()) {
                 if (!file.isEmpty()) {
                     String fileName = savePhoto(file, advertPath.toString());
-                    saveAdvert.addPhotoPath(advertFolder + "/" + fileName);
+                    //saveAdvert.addPhotoPath(advertFolder + "/" + fileName);
                 }
             }
             AdvertRepo.save(saveAdvert);
@@ -184,7 +184,7 @@ public class CatalogController {
     @GetMapping("/card/{id}")
     public String getCard(@PathVariable long id, Model model, HttpSession session) {
         Advert adv = AdvertRepo.findById(id).orElseThrow();
-        if (adv.getPhotoPaths() != null && !adv.getPhotoPaths().isEmpty()) {
+        /*if (adv.getPhotoPaths() != null && !adv.getPhotoPaths().isEmpty()) {
             List<String> validPhotoPaths = new ArrayList<>();
 
             for (String photoPath : adv.getPhotoPaths()) {
@@ -195,13 +195,13 @@ public class CatalogController {
                 logger.warn("Фото не найдено: {}", fullPath);
             }
         }
-        adv.setPhotoPaths(validPhotoPaths);
+        adv.setPhotoPaths(validPhotoPaths);*/
         /*Path photoPath = Paths.get(uploadPath, adv.getPhotoPaths());
         if (!Files.exists(photoPath)) {
             System.out.println("Файл не найден: " + photoPath.toAbsolutePath());
             adv.setPhotoPaths(null); // Очищаем путь, если файл не существует
         }*/
-        }
+        
         User user = (User)session.getAttribute("currentUser");
         model.addAttribute("currentUser", user);
         model.addAttribute("dacha", adv);

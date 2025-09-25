@@ -4,6 +4,7 @@ package ads.dacha.services.models;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
@@ -14,6 +15,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Advert {
@@ -46,10 +48,8 @@ public class Advert {
     private String contactPhone;
     private String contactEmail;
     
-    @ElementCollection
-    @CollectionTable(name = "advert_photos", joinColumns = @JoinColumn(name = "advert_id"))
-    @Column(name = "photo_path", length = 3000)
-    private List<String> photoPaths = new ArrayList<>();
+    @OneToMany(mappedBy = "advert", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Photo> photos = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -61,18 +61,6 @@ public class Advert {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public List<String> getPhotoPaths() {
-        return photoPaths;
-    }
-
-    public void setPhotoPaths(List<String> photoPaths) {
-        this.photoPaths = photoPaths;
-    }
-
-    public void addPhotoPath(String path) {
-        this.photoPaths.add(path);
     }
 
     public String getAdTitle() {
