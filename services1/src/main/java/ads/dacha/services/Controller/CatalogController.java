@@ -120,7 +120,7 @@ public class CatalogController {
             for (MultipartFile file : advertDto.getPhotoFiles()) {
                 if (!file.isEmpty()) {
                     String fileName = savePhoto(file, advertPath.toString());
-                    //saveAdvert.addPhotoPath(advertFolder + "/" + fileName);
+                    saveAdvert.addPhotoPath(advertFolder + "/" + fileName);
                 }
             }
             AdvertRepo.save(saveAdvert);

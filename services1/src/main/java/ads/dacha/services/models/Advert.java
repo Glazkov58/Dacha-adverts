@@ -263,7 +263,22 @@ public class Advert {
         this.id = id;
     }
     
-    
+    public void addPhotoPath(String path){
+        Photo photo = new Photo();
+        photo.setPath(path);
+        photo.setAdvert(this);
+        photos.add(photo);
+    }
+    public String getMainPhoto() {
+        if (photos == null || photos.size() == 0) {
+            return "";
+        }
+        return photos.get(0).getPath();
+    }
+
+    public List<Photo> getPhotos() {
+        return photos;
+    }
 
 
 
