@@ -23,18 +23,28 @@
                 </div>
                 
                 <!-- Галерея изображений -->
-                <div class="card mb-4" th:if="${not #lists.isEmpty(dacha.photoPaths)}">
+                <div class="card mb-4" th:if="${not #lists.isEmpty(dacha.photos)}">
                     <div class="card-body p-0">
                         <div id="propertyCarousel" class="carousel slide" data-bs-ride="carousel">
                             <!-- Фотографии -->
                             <div class="carousel-inner">
-                                <div th:each="photo, stat : ${dacha.photoPaths}"
+                                <div th:each="photo, stat : ${dacha.photos}"
                                     th:class="${stat.first} ? 'carousel-item active' : 'carousel-item'">
-                                    <img th:src="@{'/uploads/' + ${photo}}" 
+                                    <img th:src="@{'/uploads/' + ${photo.path}}" 
                                         class="d-block w-100"
                                         style="height: 500px; object-fit: cover;"
                                         th:alt="'Фото ' + ${stat.count}">
                                 </div>
+                            </div>
+
+                            <!-- Индикаторы -->
+                            <div class="carousel-indicators" th:if="${#lists.size(dacha.photos) > 1}">
+                                <button type="button"
+                                        th:each="photo, iterStat : ${dacha.photos}"
+                                        th:data-bs-target="'#propertyCarousel'"
+                                        th:data-bs-slide-to="${iterStat.index}"
+                                        th:class="${iterStat.first} ? 'active' : ''"
+                                        aria-label="Slide"></button>
                             </div>
                             
                             <!-- Кнопки навигации -->
@@ -50,7 +60,7 @@
                     </div>
                 </div>
 
-                <div class="card mb-4" th:unless="${not #lists.isEmpty(dacha.photoPaths)}">
+                <div class="card mb-4" th:unless="${not #lists.isEmpty(dacha.photos)}">
                     <div class="card-body p-0">
                         <img src="/static/images/no-image.jpg" 
                             class="d-block w-100 carousel-image"
@@ -161,6 +171,12 @@
                         <button class="btn btn-outline-secondary w-100">
                             <i class="bi bi-share"></i> Поделиться
                         </button>
+                        <form th:action="@{/favorites/toggle}" method="post">
+                            <input type="hidden" name="advertId" th:value="${dacha.id}">
+                        <button type="submit" class="btn btn-outline-danger">
+                            <i class="bi bi-heart"></i> В избранное
+                        </button>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -189,6 +205,12 @@
                         <button class="btn btn-outline-secondary w-100 mb-3">
                             <i class="bi bi-share"></i> Поделиться
                         </button>
+                        <form th:action="@{/favorites/toggle}" method="post">
+                            <input type="hidden" name="advertId" th:value="${dacha.id}">
+                        <button type="submit" class="btn btn-outline-danger">
+                            <i class="bi bi-heart"></i> В избранное
+                        </button>
+                        </form>
                         
                         <div class="alert alert-warning small">
                             <i class="bi bi-exclamation-triangle"></i> <strong>Будьте внимательны!</strong> Не переводите деньги заранее и не доверяйте сомнительным предложениям.

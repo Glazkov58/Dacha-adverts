@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments :: head('Избранное — Дачник.ру')}"></head>
+<body>
+
+<header th:replace="~{fragments :: header('favorites')}"></header>
+
+<div class="container py-5">
+    <div class="row">
+        <!-- Боковая панель -->
+        <div class="col-md-4 mb-4">
+            <div class="profile-card card">
+                <div class="card-header profile-header text-white text-center py-4">
+                    <div class="d-flex justify-content-center mb-3">
+                        <div class="rounded-circle bg-white p-1" style="width: 100px; height: 100px;">
+                            <img src="https://via.placeholder.com/100" class="rounded-circle w-100 h-100" alt="Аватар">
+                        </div>
+                    </div>
+                    <h4 th:text="${user.firstname + ' ' + user.secondname}">Иван Иванов</h4>
+                    <p class="mb-0" th:text="${user.email}">user@example.com</p>
+                </div>
+                <div class="card-body">
+                    <ul class="nav nav-pills flex-column mb-3">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/profile">
+                                <i class="bi bi-list-ul me-2"></i> Мои объявления
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/favorites">
+                                <i class="bi bi-heart me-2"></i> Избранное
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/settings">
+                                <i class="bi bi-gear me-2"></i> Настройки
+                            </a>
+                        </li>
+                    </ul>
+                    <a href="/addadvert" class="btn btn-success w-100">
+                        <i class="bi bi-plus-circle"></i> Добавить объявление
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Основной контент -->
+        <div class="col-md-8">
+            <div class="card mb-4">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0"><i class="bi bi-heart-fill text-danger"></i> Избранные объявления</h5>
+                </div>
+                <div class="card-body">
+
+                    <!-- Список избранных объявлений -->
+                    <div class="row" th:if="${not #lists.isEmpty(favoriteAdverts)}">
+                        <div class="col-md-6 mb-4" th:each="advert : ${favoriteAdverts}">
+                            <div class="advert-card card h-100">
+                                <div class="position-relative">
+                                    <img th:if="${not #lists.isEmpty(advert.photos)}" 
+                                         th:src="@{'/uploads/' + ${advert.photos[0].path}}" 
+                                         class="card-img-top advert-img" alt="Фото объявления"
+                                         style="height: 180px; object-fit: cover;">
+                                    <img th:if="${#lists.isEmpty(advert.photos)}" 
+                                         src="https://via.placeholder.com/300x180?text=Нет+фото" 
+                                         class="card-img-top advert-img" alt="Нет фото"
+                                         style="height: 180px; object-fit: cover;">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title" th:text="${advert.adTitle}">Название объявления</h5>
+                                    <div class="mb-2">
+                                        <span class="badge bg-info text-dark me-1" th:text="${advert.adCategory}">Категория</span>
+                                        <span class="badge bg-light text-dark" th:text="${advert.adArea} + ' сот.'">10 сот.</span>
+                                    </div>
+                                    <p class="card-text text-muted" th:text="${#strings.abbreviate(advert.adDescription, 100)}">
+                                        Краткое описание...
+                                    </p>
+                                    <div class="d-flex justify-content-between align-items-center mt-3">
+                                        <strong class="text-success" th:text="${#numbers.formatInteger(advert.adPrice, 0, 'WHITESPACE')} + ' ₽'">
+                                            1 500 000 ₽
+                                        </strong>
+                                        <a th:href="@{/card/{id}(id=${advert.id})}" class="btn btn-sm btn-outline-primary">
+                                            <i class="bi bi-eye"></i> Смотреть
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="card-footer bg-white border-top-0">
+                                    <small class="text-muted">
+                                        <i class="bi bi-geo-alt"></i> 
+                                        <span th:text="${advert.adCity}">Город</span>
+                                    </small>
+                                    <small class="text-muted float-end">
+                                        <i class="bi bi-clock"></i> В избранном
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Если избранных нет -->
+                    <div class="text-center py-5" th:if="${#lists.isEmpty(favoriteAdverts)}">
+                        <i class="bi bi-heart text-muted" style="font-size: 3rem;"></i>
+                        <h5 class="mt-3">Нет избранных объявлений</h5>
+                        <p class="text-muted">Объявления, которые вы добавите в избранное, появятся здесь</p>
+                        <a href="/" class="btn btn-outline-success mt-2">
+                            <i class="bi bi-search"></i> Найти объявления
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="~{fragments :: footer}"></footer>
+<div th:replace="~{fragments :: scripts}"></div>
+
+</body>
+</html>

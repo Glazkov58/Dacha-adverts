@@ -231,7 +231,7 @@ public class CatalogController {
         model.addAttribute("ads", adverts);
         return "catalog";
     }
-
+    
 
 
 

@@ -280,6 +280,9 @@ public class Advert {
         return photos;
     }
 
+    @OneToMany(mappedBy = "advert", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Favorite> favoritedBy = new ArrayList<>();
+
 
 
 }
