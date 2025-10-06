@@ -173,9 +173,11 @@
                         </button>
                         <form th:action="@{/favorites/toggle}" method="post">
                             <input type="hidden" name="advertId" th:value="${dacha.id}">
-                        <button type="submit" class="btn btn-outline-danger">
-                            <i class="bi bi-heart"></i> В избранное
-                        </button>
+                            <button type="submit" class="btn w-100 mb-3"
+                                    th:classappend="${isInFavorites} ? 'btn-danger' : 'btn-outline-danger'">
+                                <i th:class="${isInFavorites} ? 'bi bi-heart-fill' : 'bi bi-heart'"></i>
+                                <span th:text="${isInFavorites} ? 'В избранном' : 'В избранное'"></span>
+                            </button>
                         </form>
                     </div>
                 </div>
@@ -207,9 +209,11 @@
                         </button>
                         <form th:action="@{/favorites/toggle}" method="post">
                             <input type="hidden" name="advertId" th:value="${dacha.id}">
-                        <button type="submit" class="btn btn-outline-danger">
-                            <i class="bi bi-heart"></i> В избранное
-                        </button>
+                            <button type="submit" class="btn w-100 mt-2"
+                                    th:classappend="${isInFavorites} ? 'btn-danger' : 'btn-outline-danger'">
+                                <i th:class="${isInFavorites} ? 'bi bi-heart-fill' : 'bi bi-heart'"></i>
+                                <span th:text="${isInFavorites} ? 'В избранном' : 'В избранное'"></span>
+                            </button>
                         </form>
                         
                         <div class="alert alert-warning small">

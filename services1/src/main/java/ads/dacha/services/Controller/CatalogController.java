@@ -25,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import ads.dacha.services.models.Advert;
 import ads.dacha.services.models.AdvertDto;
 import ads.dacha.services.models.AdvertRepository;
+import ads.dacha.services.models.FavoriteRepository;
 import ads.dacha.services.models.User;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -180,7 +181,8 @@ public class CatalogController {
         //return "catalog";*/
           
     
-
+    @Autowired 
+    private FavoriteRepository favoriteRepo;
     @GetMapping("/card/{id}")
     public String getCard(@PathVariable long id, Model model, HttpSession session) {
         Advert adv = AdvertRepo.findById(id).orElseThrow();
@@ -203,7 +205,12 @@ public class CatalogController {
         }*/
         
         User user = (User)session.getAttribute("currentUser");
-        model.addAttribute("currentUser", user);
+        // Проверяем, добавлено ли объявление в избранное
+        boolean isInFavorites = false;
+        if(user !=null){
+            isInFavorites = favoriteRepo.existsByUserAndAdvert(user, adv);
+        }
+        model.addAttribute("isInFavorites", isInFavorites);
         model.addAttribute("dacha", adv);
         return "card";
     }

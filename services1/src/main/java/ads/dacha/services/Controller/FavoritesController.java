@@ -2,6 +2,8 @@ package ads.dacha.services.Controller;
 
 import ads.dacha.services.models.*;
 import jakarta.servlet.http.HttpSession;
+import jakarta.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -44,6 +46,7 @@ public class FavoritesController {
     }
 
     @PostMapping("/favorites/toggle")
+    @Transactional
 public String toggleFavorite(@RequestParam Long advertId, HttpSession session) {
     User user = (User) session.getAttribute("currentUser");
     Advert advert = advertRepo.findById(advertId).orElseThrow();
