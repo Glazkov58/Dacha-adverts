@@ -1,15 +1,15 @@
 package ads.dacha.services.Controller;
 
-import java.security.Principal;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+
 
 import ads.dacha.services.models.Advert;
 import ads.dacha.services.models.AdvertRepository;
