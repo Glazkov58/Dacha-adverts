@@ -39,24 +39,24 @@ src
 
 *Скриншоты*
 ## Главная страница
-![Главная](screenshots/home-dacha.PNG)
+![Главная](docs/screenshots/home-dacha.PNG)
 
 ### Регистрация пользователя
-![Регистрация](screenshots/reg-dacha.PNG)
+![Регистрация](docs/screenshots/reg-dacha.PNG)
 
 ### Авторизация пользователя
-![Авторизация](screenshots/auth-dacha.PNG)
+![Авторизация](docs/screenshots/auth-dacha.PNG)
 
 ### Карточка объявления
-![Карточка](screenshots/advert-dacha.PNG)
+![Карточка](docs/screenshots/advert-dacha.PNG)
 
 ### Добавление объявления
-![Добавление](screenshots/add-advert-dacha.PNG)
+![Добавление](docs/screenshots/add-advert-dacha.PNG)
 
-![Добавление](screenshots/add-advert-dacha2.PNG)
+![Добавление](docs/screenshots/add-advert-dacha2.PNG)
 
 ### Профиль пользователя
-![Профиль](screenshots/profile-dacha.PNG)
+![Профиль](docs/screenshots/profile-dacha.PNG)
 
 ### Избранное пользователя
-![Избранное](screenshots/favorites-dacha.PNG)
+![Избранное](docs/screenshots/favorites-dacha.PNG)

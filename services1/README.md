@@ -36,3 +36,27 @@ src
 │       ├── templates           # HTML шаблоны Thymeleaf
 │       └── application.properties
 └── test                        # Тесты
+
+*Скриншоты*
+## Главная страница
+![Главная](screenshots/home-dacha.PNG)
+
+### Регистрация пользователя
+![Регистрация](screenshots/reg-dacha.PNG)
+
+### Авторизация пользователя
+![Авторизация](screenshots/auth-dacha.PNG)
+
+### Карточка объявления
+![Карточка](screenshots/advert-dacha.PNG)
+
+### Добавление объявления
+![Добавление](screenshots/add-advert-dacha.PNG)
+
+![Добавление](screenshots/add-advert-dacha2.PNG)
+
+### Профиль пользователя
+![Профиль](screenshots/profile-dacha.PNG)
+
+### Избранное пользователя
+![Избранное](screenshots/favorites-dacha.PNG)
